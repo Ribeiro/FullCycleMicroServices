@@ -4,6 +4,7 @@ import PurchaseTicket from "../src/application/PurchaseTicket";
 import Event from "../src/domain/entity/Event";
 import PaymentGateway from "../src/infra/gateway/PaymentGateway";
 import AxiosAdapter from "../src/infra/http/AxiosAdapter";
+import RabbitMQAdapter from "../src/infra/queue/RabbitMQAdapter";
 import EventMemoryRepository from "../src/infra/repository/EventMemoryRepository";
 import TicketMemoryRepository from "../src/infra/repository/TicketMemoryRepository";
 
@@ -13,8 +14,9 @@ test("Should buy a ticket", async function () {
     const ticketRepository = new TicketMemoryRepository();
     const httpClient = new AxiosAdapter();
     const paymentGateway = new PaymentGateway(httpClient);
-
-    const purchaseTicket = new PurchaseTicket(ticketRepository, eventRepository, paymentGateway);
+    const queue = new RabbitMQAdapter()
+    await queue.connect();
+    const purchaseTicket = new PurchaseTicket(ticketRepository, eventRepository, paymentGateway, queue);
     const ticketCode = randomUUID();
     const input = {
         ticketCode,
