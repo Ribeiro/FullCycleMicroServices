@@ -22,9 +22,9 @@ async function init() {
     await queue.connect();
     const purchaseTicket = new PurchaseTicket(ticketRepository, eventRepository, paymentGateway, queue);
     const getTicket = new GetTicket(ticketRepository, eventRepository);
-    new MainController(httpServer, purchaseTicket, getTicket);
+    new MainController(httpServer, purchaseTicket, getTicket, queue);
     const confirmTicket = new ConfirmTicket(ticketRepository);
-    new TicketConsumer(queue, confirmTicket);
+    new TicketConsumer(queue, confirmTicket, purchaseTicket);
     httpServer.listen(3000);
 }
 
