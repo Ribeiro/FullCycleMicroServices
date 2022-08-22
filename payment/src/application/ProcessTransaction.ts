@@ -1,15 +1,16 @@
+import Queue from "../infra/queue/Queue"
+
 export default class ProcessTransaction {
 
-    constructor() {
+    constructor(readonly queue: Queue) {
 
     }
 
-    async execute(input: Input): Promise<Output> {
-        return {
+    async execute(input: Input): Promise<void> {
+        await this.queue.produce("transactionApproved", {
             externalCode: input.externalCode,
             success: true
-        }
-
+        });
     }
 
 }

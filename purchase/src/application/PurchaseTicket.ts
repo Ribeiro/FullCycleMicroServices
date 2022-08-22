@@ -24,13 +24,6 @@ export default class PurchaseTicket {
             input.creditCardCvv,
             input.creditCardExpDate,
             eventFromDB);
-        // const paymentResult = await this.paymentGateway.execute({
-        //     externalCode: input.ticketCode,
-        //     creditCardNumber: input.creditCardNumber,
-        //     creditCardCvv: input.creditCardCvv,
-        //     creditCardExpDate: input.creditCardExpDate,
-        //     total: newTicket.total
-        // });
         await this.ticketRepository.save(newTicket);
         await this.queue.produce("ticketPurchased", {
             externalCode: input.ticketCode,

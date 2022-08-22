@@ -18,4 +18,9 @@ export default class TicketMemoryRepository implements TicketRepository {
         return ticket;
     }
 
+    async update(ticket: Ticket): Promise<void> {
+        const existingTicket = await this.get(ticket.ticketCode);
+        this.tickets.splice(this.tickets.indexOf(existingTicket), 1, ticket);
+    }
+
 }

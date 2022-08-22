@@ -8,6 +8,8 @@ import MainController from "./infra/controller/MainController";
 import AxiosAdapter from "./infra/http/AxiosAdapter";
 import PaymentGateway from "./infra/gateway/PaymentGateway";
 import RabbitMQAdapter from "./infra/queue/RabbitMQAdapter";
+import TicketConsumer from "./infra/consumer/TicketConsumer";
+import ConfirmTicket from "./application/ConfirmTicket";
 
 async function init() {
     const httpServer = new ExpressAdapter();
@@ -21,6 +23,8 @@ async function init() {
     const purchaseTicket = new PurchaseTicket(ticketRepository, eventRepository, paymentGateway, queue);
     const getTicket = new GetTicket(ticketRepository, eventRepository);
     new MainController(httpServer, purchaseTicket, getTicket);
+    const confirmTicket = new ConfirmTicket(ticketRepository);
+    new TicketConsumer(queue, confirmTicket);
     httpServer.listen(3000);
 }
 
