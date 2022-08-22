@@ -1,8 +1,17 @@
 import ExpressAdapter from "./infra/http/ExpressAdapter";
 import MainController from "./infra/controller/MainController";
 import ProcessTransaction from "./application/ProcessTransaction";
+import RabbitMQAdapter from "./infra/queue/RabbitMQAdapter";
+import PaymentConsumer from "./infra/consumer/PaymentConsumer";
 
-const httpServer = new ExpressAdapter();
-const processTransaction = new ProcessTransaction();
-new MainController(httpServer, processTransaction);
-httpServer.listen(3001);
+async function init() {
+    const httpServer = new ExpressAdapter();
+    const processTransaction = new ProcessTransaction();
+    const queue = new RabbitMQAdapter();
+    await queue.connect();
+    new MainController(httpServer, processTransaction);
+    new PaymentConsumer(queue, processTransaction);
+    httpServer.listen(3001);
+}
+
+init();

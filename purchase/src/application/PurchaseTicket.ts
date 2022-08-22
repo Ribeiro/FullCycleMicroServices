@@ -32,7 +32,7 @@ export default class PurchaseTicket {
         //     total: newTicket.total
         // });
         await this.ticketRepository.save(newTicket);
-        await this.queue.produce("ticketPurchase", {
+        await this.queue.produce("ticketPurchased", {
             externalCode: input.ticketCode,
             creditCardNumber: input.creditCardNumber,
             creditCardCvv: input.creditCardCvv,
