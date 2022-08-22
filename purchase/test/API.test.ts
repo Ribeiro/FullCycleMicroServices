@@ -25,13 +25,13 @@ test("Should buy a ticket through API", async function () {
         }
     });
 
+    await sleep(1000);
     const response = await axios({
         url: `http://localhost:3000/tickets/${ticketCode}`,
         method: "get"
     });
 
     const output = response.data;
-    await sleep(1000);
     expect(output.total).toBe(100);
     expect(output.status).toBe("confirmed");
 });

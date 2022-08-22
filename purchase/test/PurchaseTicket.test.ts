@@ -8,7 +8,7 @@ import RabbitMQAdapter from "../src/infra/queue/RabbitMQAdapter";
 import EventMemoryRepository from "../src/infra/repository/EventMemoryRepository";
 import TicketMemoryRepository from "../src/infra/repository/TicketMemoryRepository";
 
-test("Should buy a ticket", async function () {
+test.skip("Should buy a ticket", async function () {
     const eventRepository = new EventMemoryRepository();
     eventRepository.save(new Event("C", "Imersão Full Cycle", 100));
     const ticketRepository = new TicketMemoryRepository();
