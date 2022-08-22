@@ -9,6 +9,6 @@ export default class ConfirmTicket {
     async execute(code: string): Promise<void> {
         const ticket = await this.ticketRepository.get(code);
         ticket.status = "confirmed";
-        await this.ticketRepository.save(ticket);
+        await this.ticketRepository.update(ticket);
     }
 }

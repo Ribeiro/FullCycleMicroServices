@@ -16,7 +16,8 @@ export default class GetTicket {
         return {
             participantEmail: ticketFromDb.participantEmail,
             eventDescription: eventFromDb.description,
-            total: ticketFromDb.total
+            total: ticketFromDb.total,
+            status: ticketFromDb.status
         };
     }
 
@@ -25,5 +26,6 @@ export default class GetTicket {
 type Output = {
     participantEmail: string,
     eventDescription: string,
-    total: number
+    total: number,
+    status: string
 }
